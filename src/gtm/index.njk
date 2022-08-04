@@ -23,29 +23,15 @@
 
     <script>
       window.onload = function (event) {
-        console.log("GTM loaded...")
-
-        var elements = document.getElementsByClassName('event-link-click');
-        for (var i = 0; i < elements.length; i++) {
-          elements[i].addEventListener('click', function(event) {
-            event.preventDefault();
-
-            if (window.dataLayer) {
-              var anchor = event.target.closest('a');
-              var data = {
-                'event': 'gtm-click',
-                'event_data': {
-                  'event_category': 'link',
-                  'event_label': anchor.getAttribute('id'),
-                  'value': anchor.getAttribute('href')
-                }
-              };
-              window.dataLayer.push(data);
-            }
-
-            console.log(window.dataLayer[window.dataLayer.length - 1]);
-          })
-        }
+        var anchor = document.getElementById('anchor');
+        anchor.addEventListener('click', function(event) {
+          event.preventDefault();
+          if (window.dataLayer) {
+            var event_data = JSON.parse(event.target.getAttribute('data-ga4'))
+            var data = { 'event': 'gtm-click', event_data };
+            window.dataLayer.push(data);
+          }
+        });
       }
     </script>
   </body>
